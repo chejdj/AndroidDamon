@@ -6,6 +6,7 @@ import android.content.IntentFilter
 import com.chejdj.androiddamon.MyApplication
 import com.chejdj.androiddamon.activity.KeepLiveActivity
 import com.chejdj.androiddamon.broadcast.KeepliveReceiver
+import com.chejdj.androiddamon.service.KeepLiveService
 
 /*
  编译期常量，使用const修饰符
@@ -44,5 +45,9 @@ class KeepLiveManager private constructor() {
 
     fun finishKeepLiveActivity() {
         MyApplication.getApplication().liveActivity?.finish()
+    }
+    fun startKeepliveService(activity: Activity){
+        val intent = Intent(activity,KeepLiveService::class.java)
+        activity.startService(intent)
     }
 }
