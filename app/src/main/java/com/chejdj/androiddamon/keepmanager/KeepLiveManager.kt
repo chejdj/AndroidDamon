@@ -1,11 +1,13 @@
-package com.chejdj.androiddamon.manager
+package com.chejdj.androiddamon.keepmanager
 
 import android.app.Activity
 import android.content.Intent
 import android.content.IntentFilter
+import android.net.LocalSocket
 import com.chejdj.androiddamon.MyApplication
 import com.chejdj.androiddamon.activity.KeepLiveActivity
-import com.chejdj.androiddamon.broadcast.KeepliveReceiver
+import com.chejdj.androiddamon.broadcast.KeepliveDynamicReceiver
+import com.chejdj.androiddamon.service.KeepLiveJobService
 import com.chejdj.androiddamon.service.KeepLiveService
 
 /*
@@ -29,13 +31,18 @@ class KeepLiveManager private constructor() {
     private object SingleInstance {
         val INSTANCE = KeepLiveManager()
     }
+
     init {
-        val keepliveReceive = KeepliveReceiver()
+        val keepliveReceive = KeepliveDynamicReceiver()
         val receiverFilter = IntentFilter()
         receiverFilter.addAction(Intent.ACTION_SCREEN_ON)
         receiverFilter.addAction(Intent.ACTION_SCREEN_OFF)
-        MyApplication.getApplication().registerReceiver(keepliveReceive,receiverFilter)
+        MyApplication.getApplication().registerReceiver(keepliveReceive, receiverFilter)
     }
+
+    /**
+     * 方案一： 通过监控手机息屏和开屏，开启1像素点的Activity的方法提升进程优先级
+     */
 
     fun startKeepLiveActivity() {
         val intent = Intent(MyApplication.getApplication().applicationContext, KeepLiveActivity::class.java)
@@ -46,8 +53,42 @@ class KeepLiveManager private constructor() {
     fun finishKeepLiveActivity() {
         MyApplication.getApplication().liveActivity?.finish()
     }
-    fun startKeepliveService(activity: Activity){
-        val intent = Intent(activity,KeepLiveService::class.java)
+
+    /**
+     * 方案二：通过开启前台Service，利用Android5的通知Bug提升进程优先级
+     */
+    fun startKeepliveService(activity: Activity) {
+        val intent = Intent(activity, KeepLiveService::class.java)
         activity.startService(intent)
     }
+
+    /**
+     * 方案三：利用系统广播实现拉活,这个是静态广播实现，见KeepliveStaticReceiver
+     */
+
+    /**
+     * 方案四：service返回START_STICKY ，见KeepliveService
+     */
+
+
+    /**
+     * 方案五
+     * JobSchduler机制拉活
+     */
+    fun startKeepliveJobServie(activty: Activity) {
+        KeepLiveJobService.startJobService(activty.applicationContext)
+    }
+
+    /**
+     * 方案六
+     * 账号同步机制
+     */
+
+
+    // TODO 需要学习知识点localSocket,以及如何在C进程中，拉活Java的进程
+    /**
+     * 方案七：native进程拉活
+     */
+
+
 }

@@ -4,10 +4,10 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import com.chejdj.androiddamon.manager.KeepLiveManager
+import com.chejdj.androiddamon.keepmanager.KeepLiveManager
 
-class KeepliveReceiver : BroadcastReceiver() {
-    val TAG: String = "KeepliveReceiver"
+class KeepliveDynamicReceiver : BroadcastReceiver() {
+    val TAG: String = "KeepliveDynamicReceiver"
     override fun onReceive(context: Context?, intent: Intent?) {
         if (intent?.action.equals(Intent.ACTION_SCREEN_OFF)) {
             Log.d(TAG, "screen_off")
@@ -16,5 +16,6 @@ class KeepliveReceiver : BroadcastReceiver() {
             Log.d(TAG, "screen_on")
             KeepLiveManager.INSTANCE.finishKeepLiveActivity()
         }
+
     }
 }

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.chejdj.androiddamon">
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
             android:allowBackup="true"
@@ -28,16 +31,19 @@
                   android:exported="false"
                   android:launchMode="singleInstance"
                   android:theme="@style/liveActivityStyle"/>
-        <receiver android:name=".broadcast.KeepliveReceiver">
+        <receiver android:name=".broadcast.KeepliveDynamicReceiver"/>
+        <receiver android:name=".broadcast.KeepliveStaticReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.SCREEN_ON"/>
-                <action android:name="android.intent.action.SCREEN_OFF"/>
                 <action android:name="android.intent.action.USER_PRESENT"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.net.action.BATTERY_LOW"/>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
             </intent-filter>
         </receiver>
         <service android:name=".service.KeepLiveService"/>
         <service android:name=".service.KeepLiveService$Companion$InnerService"/>
-
+        <service android:name=".service.KeepLiveJobService"
+                 android:permission="android.permission.BIND_JOB_SERVICE"/>
     </application>
 
 </manifest>

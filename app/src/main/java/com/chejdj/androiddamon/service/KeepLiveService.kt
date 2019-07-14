@@ -20,15 +20,15 @@ class KeepLiveService : Service() {
             val innerIntent = Intent(this, InnerService::class.java)
             val notification = Notification.Builder(this).setContentTitle("hello").build()
             startService(innerIntent)
-            startForeground(MONITOR_SERVICE_ID,notification)
-            Log.d(TAG,"start OutService")
+            startForeground(MONITOR_SERVICE_ID, notification)
+            Log.d(TAG, "start OutService")
         }
-        return super.onStartCommand(intent, flags, startId)
+        return Service.START_STICKY
     }
 
     companion object {
         val MONITOR_SERVICE_ID = -1001
-        val TAG:String = "KeepLiveService"
+        val TAG: String = "KeepLiveService"
 
         class InnerService : Service() {
             override fun onBind(intent: Intent?): IBinder? {
@@ -37,9 +37,9 @@ class KeepLiveService : Service() {
 
             override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
                 val notification = Notification.Builder(this).setContentTitle("hello").build()
-                startForeground(MONITOR_SERVICE_ID,notification)
+                startForeground(MONITOR_SERVICE_ID, notification)
                 stopSelf()
-                Log.d(TAG,"start InnerService")
+                Log.d(TAG, "start InnerService")
                 return super.onStartCommand(intent, flags, startId)
             }
         }
