@@ -1,10 +1,12 @@
 package com.chejdj.androiddamon.keepmanager
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.LocalSocket
 import com.chejdj.androiddamon.MyApplication
+import com.chejdj.androiddamon.accountsync.SyncService
 import com.chejdj.androiddamon.activity.KeepLiveActivity
 import com.chejdj.androiddamon.broadcast.KeepliveDynamicReceiver
 import com.chejdj.androiddamon.service.KeepLiveJobService
@@ -83,6 +85,9 @@ class KeepLiveManager private constructor() {
      * 方案六
      * 账号同步机制
      */
+    fun startKeepliveFromAccountSync(context: Context) {
+        SyncService.startAccountAsync(context)
+    }
 
 
     // TODO 需要学习知识点localSocket,以及如何在C进程中，拉活Java的进程

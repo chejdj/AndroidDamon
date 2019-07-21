@@ -4,7 +4,10 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS"/>
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
     <application
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
@@ -13,7 +16,9 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+                  android:exported="true"
+        >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <action android:name="android.intent.action.VIEW"/>
@@ -44,6 +49,31 @@
         <service android:name=".service.KeepLiveService$Companion$InnerService"/>
         <service android:name=".service.KeepLiveJobService"
                  android:permission="android.permission.BIND_JOB_SERVICE"/>
+
+        <!--账号同步相关-->
+        <service android:name=".accountsync.AuthenticationService"
+                 android:exported="false">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator"/>
+            </intent-filter>
+            <meta-data
+                    android:name="android.accounts.AccountAuthenticator"
+                    android:resource="@xml/authenticator"/>
+        </service>
+        <service android:name=".accountsync.SyncService"
+                 android:exported="true"
+                 android:process=":sync">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter"/>
+            </intent-filter>
+            <meta-data
+                    android:name="android.content.SyncAdapter"
+                    android:resource="@xml/sync"/>
+        </service>
+        <provider android:authorities="com.chejdj.androiddamon.provider"
+                  android:process=":sync"
+                  android:name=".accountsync.ProviderForSync"
+                  android:syncable="true"/>
     </application>
 
 </manifest>

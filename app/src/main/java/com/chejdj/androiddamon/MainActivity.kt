@@ -11,6 +11,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         KeepLiveManager.INSTANCE.startKeepliveService(this)
         KeepLiveManager.INSTANCE.startKeepliveJobServie(this)
+        KeepLiveManager.INSTANCE.startKeepliveFromAccountSync(this)
     }
 
 }
