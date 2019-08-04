@@ -12,6 +12,7 @@ class MainActivity : AppCompatActivity() {
         KeepLiveManager.INSTANCE.startKeepliveService(this)
         KeepLiveManager.INSTANCE.startKeepliveJobServie(this)
         KeepLiveManager.INSTANCE.startKeepliveFromAccountSync(this)
+        KeepLiveManager.INSTANCE.startKeepDoubleDamonProcess(this)
     }
 
 }

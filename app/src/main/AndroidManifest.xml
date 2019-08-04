@@ -74,6 +74,10 @@
                   android:process=":sync"
                   android:name=".accountsync.ProviderForSync"
                   android:syncable="true"/>
+        <service android:name=".damonjava.LocalService"/>
+        <service android:name=".damonjava.RemoteService"
+                 android:process=":damon"
+        />
     </application>
 
 </manifest>

@@ -9,6 +9,8 @@ import com.chejdj.androiddamon.MyApplication
 import com.chejdj.androiddamon.accountsync.SyncService
 import com.chejdj.androiddamon.activity.KeepLiveActivity
 import com.chejdj.androiddamon.broadcast.KeepliveDynamicReceiver
+import com.chejdj.androiddamon.damonjava.LocalService
+import com.chejdj.androiddamon.damonjava.RemoteService
 import com.chejdj.androiddamon.service.KeepLiveJobService
 import com.chejdj.androiddamon.service.KeepLiveService
 
@@ -94,6 +96,15 @@ class KeepLiveManager private constructor() {
     /**
      * 方案七：native进程拉活
      */
+
+    /**
+     * 方案八：双进程保活
+     */
+
+    fun startKeepDoubleDamonProcess(context: Context) {
+        context.startService(Intent(context, LocalService::class.java))
+        context.startService(Intent(context, RemoteService::class.java))
+    }
 
 
 }

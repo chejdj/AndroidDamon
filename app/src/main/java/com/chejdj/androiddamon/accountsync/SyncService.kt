@@ -10,6 +10,7 @@ import android.os.SystemClock
 import android.util.Log
 import com.chejdj.androiddamon.MainActivity
 import com.chejdj.androiddamon.activity.KeepLiveActivity
+import com.chejdj.androiddamon.utils.LaunchUtils
 import com.chejdj.androiddamon.utils.LiveState
 
 class SyncService : Service() {
@@ -44,11 +45,11 @@ class SyncService : Service() {
                 Log.d("AndroidDamon", "sync time at" + SystemClock.elapsedRealtime())
                 if (!LiveState.isApplive(context, "com.chejdj.androiddamon")) {
                     Log.d("AndroidDamon", "准备启动APP")
-                    val intent = Intent(context, MainActivity::class.java)
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    if (context != null) {
-                        context.startActivity(intent)
-                    }
+                    LaunchUtils.launchAppActivity(
+                        "com.chejdj.androiddamon",
+                        "com.chejdj.androiddamon.MainActivity",
+                        context
+                    )
                 }
             }
 
